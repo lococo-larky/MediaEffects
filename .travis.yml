@@ -29,32 +29,27 @@ before_install:
   - export GRADLE_HOME=$PWD/gradle-1.9
   - export PATH=$GRADLE_HOME/bin:$PATH
 
+- echo "LIST SUGGESTED SDK PACKAGES";    android list sdk -e || true
+  - echo "LIST AVAILABLE SDK PACKAGES";    android list sdk -a -e || true
+  - echo "UPDATE PACKAGES IF REQUIRED";    echo y | android update sdk -u -t platform-tool,tool,\
+                                           extra-android-support,extra-google-google_play_services,\
+                                           extra-android-m2repository,extra-google-m2repository,\
+                                           android-19,sys-img-armeabi-v7a-android-19,\
+                                           android-18,sys-img-armeabi-v7a-android-18,\
+                                           android-17,sys-img-armeabi-v7a-android-17,\
+                                           android-16,sys-img-armeabi-v7a-android-16,\
+                                           android-15,sys-img-armeabi-v7a-android-15 || true
+  - echo "UPDATE PACKAGES IF POSSIBLE";    echo y | android update sdk -a -u -t ${BUILD_TOOLS},\
+                                           android-20,android-21,${SDK_EXTRA_PKGS:-} || true
+  - echo "LIST SDK UPDATES BY FILTERS";    android update sdk -u -n -t platform,system-image,\
+                                           add-on,extra || true
 
-  # install android build tools
-  - wget https://dl-ssl.google.com/android/repository/build-tools_r19-linux.zip
-  - unzip build-tools_r19-linux.zip -d $ANDROID_HOME
-  - mkdir -p $ANDROID_HOME/build-tools/
-  - mv $ANDROID_HOME/android-4.4 $ANDROID_HOME/build-tools/19
-# Install required components.
-  # For a full list, run `android list sdk -a --extended`
-  # Note that sysimg-18 downloads the ARM, x86 and MIPS images (we should optimize this).
-  # Other relevant API's
-  - echo yes | android update sdk --filter platform-tools --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter android-18 --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter android-19 --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter sysimg-19 --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
+
 
  # Create and start emulator
   #- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   #- emulator -avd test -no-skin -no-audio -no-window &
 script:
+  - gradle clean check
 
-  - ./gradlew androidDependencies
-  - ./gradlew -q :Firext:dependencies
-  - ./gradlew -q :Firext:dependencyInsight --dependency support-v4 --configuration compile
-  - ./gradlew -q :Firext:dependencyInsight --dependency appcompat-v7 --configuration compile
-  - ./gradlew connectedCheck lint
-  - ./gradlew connectedInstrumentTest
 
