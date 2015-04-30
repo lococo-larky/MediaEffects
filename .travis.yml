@@ -1,3 +1,4 @@
+language: android
 android:
   components:
     - extra-android-support
@@ -6,6 +7,7 @@ android:
     - extra-google-m2repository
     - build-tools-22.0.1
     - android-22
+    - addon-google_apis-google-19
   licenses:
     - '.+'
 env:
@@ -22,18 +24,17 @@ before_install:
   - chmod +x gradlew
 
   # Gradle
-  - wget http://services.gradle.org/distributions/gradle-2.2.1-rc-1-bin.zip
-  - unzip gradle-2.2.1-rc-1-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-2.2.1-rc-1
+  - wget http://services.gradle.org/distributions/gradle-1.9-bin.zip
+  - unzip gradle-1.9-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-1.9
   - export PATH=$GRADLE_HOME/bin:$PATH
 
 
   # install android build tools
-  - wget https://dl-ssl.google.com/android/repository/build-tools_r22-linux.zip
-  - unzip build-tools_r22-linux.zip -d $ANDROID_HOME
+  - wget https://dl-ssl.google.com/android/repository/build-tools_r19-linux.zip
+  - unzip build-tools_r19-linux.zip -d $ANDROID_HOME
   - mkdir -p $ANDROID_HOME/build-tools/
-  - mv $ANDROID_HOME/android-4.4 $ANDROID_HOME/build-tools/22
-
+  - mv $ANDROID_HOME/android-4.4 $ANDROID_HOME/build-tools/19
 # Install required components.
   # For a full list, run `android list sdk -a --extended`
   # Note that sysimg-18 downloads the ARM, x86 and MIPS images (we should optimize this).
@@ -44,8 +45,6 @@ before_install:
   - echo yes | android update sdk --filter sysimg-19 --no-ui --force > /dev/null
   - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
   - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-google-m2repository --no-ui --force > /dev/null
-
 
  # Create and start emulator
   #- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
