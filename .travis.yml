@@ -1,17 +1,5 @@
-language: android
-android:
-  components:
-    - platform-tools
-    - tools
-    - extra-android-support
-    - extra-google-google_play_services
-    - extra-android-m2repository
-    - extra-google-m2repository
-    - build-tools-22.0.1
-    - android-22
-    - addon-google_apis-google-19
-  licenses:
-    - '.+'
+language: java
+jdk: oraclejdk8
 env:
   matrix:
     - ANDROID_SDKS=android-19,sysimg-19  ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
