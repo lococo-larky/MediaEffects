@@ -50,7 +50,11 @@ before_install:
   #- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   #- emulator -avd test -no-skin -no-audio -no-window &
 script:
-   - ./gradlew connectedCheck lint
-   - ./gradlew connectedInstrumentTest
 
+  - ./gradlew androidDependencies
+  - ./gradlew -q :Firext:dependencies
+  - ./gradlew -q :Firext:dependencyInsight --dependency support-v4 --configuration compile
+  - ./gradlew -q :Firext:dependencyInsight --dependency appcompat-v7 --configuration compile
+  - ./gradlew connectedCheck lint
+  - ./gradlew connectedInstrumentTest
 
