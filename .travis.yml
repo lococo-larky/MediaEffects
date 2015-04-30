@@ -1,5 +1,13 @@
-language: java
-jdk: oraclejdk7
+android:
+  components:
+    - extra-android-support
+    - extra-google-google_play_services
+    - extra-android-m2repository
+    - extra-google-m2repository
+    - build-tools-22.0.1
+    - android-22
+  licenses:
+    - '.+'
 env:
   matrix:
     - ANDROID_SDKS=android-19,sysimg-19  ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
@@ -14,9 +22,9 @@ before_install:
   - chmod +x gradlew
 
   # Gradle
-  - wget http://services.gradle.org/distributions/gradle-1.11-bin.zip
-  - unzip gradle-1.11-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-1.11
+  - wget http://services.gradle.org/distributions/gradle-2.2.1-rc-1-bin.zip
+  - unzip gradle-2.2.1-rc-1-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-2.2.1-rc-1
   - export PATH=$GRADLE_HOME/bin:$PATH
 
 
@@ -38,8 +46,6 @@ before_install:
   - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
   - echo yes | android update sdk --filter extra-google-m2repository --no-ui --force > /dev/null
 
-  # for gradle output style
-    - export TERM=dumb
 
  # Create and start emulator
   #- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
