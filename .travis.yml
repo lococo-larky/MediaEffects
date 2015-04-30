@@ -44,8 +44,6 @@ before_install:
   - echo "LIST SDK UPDATES BY FILTERS";    android update sdk -u -n -t platform,system-image,\
                                            add-on,extra || true
 
-
-
  # Create and start emulator
   #- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   #- emulator -avd test -no-skin -no-audio -no-window &
